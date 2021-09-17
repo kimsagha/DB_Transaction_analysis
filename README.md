@@ -43,3 +43,9 @@ Sanitise the data of both transaction-001.zip and transaction-002.zip by removin
   - column 2: ip address
   - column 3: state
   - column 4: sum of number of byte of (column 1 + column 2 + column 3)
+
+
+### NOTES
+- Conda environment with Python 3.9 setup
+- Installed: pandas
+- Need encryption keys to view data in DB Browser for SQLite
