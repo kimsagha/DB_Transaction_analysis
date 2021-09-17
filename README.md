@@ -46,5 +46,7 @@ Sanitise the data of both transaction-001.zip and transaction-002.zip by removin
 
 
 ### NOTES
-- Conda environment with Python 3.9 setup
-- Installed: pandas, MySQL Connector
+- Python interpreter: conda-environment with Python 3.9 setup
+- Installed: pandas
+- CACI SQLite db in DataGrip with all three tables
+- Continue from Part 3
