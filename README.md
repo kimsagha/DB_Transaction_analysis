@@ -48,4 +48,3 @@ Sanitise the data of both transaction-001.zip and transaction-002.zip by removin
 ### NOTES
 - Conda environment with Python 3.9 setup
 - Installed: pandas, MySQL Connector
-- Need encryption keys to view data in DB Browser for SQLite
