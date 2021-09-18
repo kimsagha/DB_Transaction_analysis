@@ -27,13 +27,15 @@
     <loaded-nodes>
       <connection connection-id="4bfdc436-1c9e-4761-9477-5ab0497c87a8">
         <schema name="pg_catalog" object-types="table, view, function" />
-        <schema name="public" object-types="table, view, function, column" />
+        <schema name="public" object-types="table, view, sequence, function, column" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4bfdc436-1c9e-4761-9477-5ab0497c87a8">
-      <console name="postgres" type="STANDARD" schema="" session="Main" />
+      <console name="postgres" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT count(*) AS row_count FROM "Transactions";
+
+SELECT count(*) AS row_count FROM "Fraud";]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
