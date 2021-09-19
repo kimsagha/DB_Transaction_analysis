@@ -74,7 +74,7 @@ class Processor:
     def sanitise_transactions(self):
         # sanitise transactions
         ############
-        print('Sanitised transactions successfully')
+        print('\nSanitised transactions successfully:')
         print(self.transactions.head(10))
 
     def close_db_conn(self):
