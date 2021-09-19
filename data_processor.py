@@ -1,5 +1,6 @@
 import pandas as pd
 import database
+import numpy as np
 
 
 class Processor:
@@ -109,8 +110,22 @@ class Processor:
     # Create a report of the number of fraudulent transactions per card vendor, eg: maestro => 45, amex => 78, etc...
     def get_fraud_transac_vendor(self):
         fraudulent_transactions = self.fraud_transac
-        print('\nNumber of frauds per vendor:')
-        ###########################
+        fraudulent_transactions['vendor'] = np.nan  # add column for vendor with temporary null values
+        print('\nFraudulent transactions with vendor:')
+        fraudulent_transactions['vendor'] = fraudulent_transactions\
+            .apply(lambda row: self.add_vendor(row['credit_card_number']), axis=1)
+        vendor_counts = fraudulent_transactions['vendor'].value_counts()
+        print(fraudulent_transactions.head(10))
+        print('\nNumber of fraudulent transactions per vendor:')
+        print(vendor_counts)
+
+    def add_vendor(self, credit_card_number):
+        iin_ranges = self.iin_ranges
+        vendor = ''
+        for index, row in iin_ranges.iterrows():
+            if credit_card_number.startswith(row['prefix']):
+                return row[0]
+        return None
 
     def close_db_conn(self):
         self.db.close_db_connection()
