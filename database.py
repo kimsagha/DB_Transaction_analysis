@@ -6,6 +6,7 @@ import csv
 class Database:
     def __init__(self):
         self.connection = None
+        self.frauds = None
 
     # connect to PostgreSQL DB server and print name and version
     # creating a new connections is tedious, keep open as long as needed
@@ -84,6 +85,19 @@ class Database:
                     cursor.execute(load_query, row)
             cursor.close()
         print("Inserted values successfully")
+
+    def load_frauds(self):
+        get_query = "SELECT * FROM Fraud"
+        with self.connection as conn_get:
+            cursor = conn_get.cursor()
+            print("\nGetting frauds...")
+            cursor.execute(get_query)
+            fraudulent_data = cursor.fetchall()
+            print("Retrieved fraudulent data from database successfully, rows 0-4:")
+            cursor.close()
+        frauds = pd.DataFrame(fraudulent_data, columns=['credit_card_number', 'ipv4', 'state'])
+        print(frauds.head(5))
+        self.frauds = frauds
 
     def close_db_connection(self):
         if self.connection is not None:

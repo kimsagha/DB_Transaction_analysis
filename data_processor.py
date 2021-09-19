@@ -7,6 +7,7 @@ class Processor:
         self.transactions = None
         self.db = None
         self.iin_ranges = None
+        self.fraud_transac = None
 
     def initialise_processor(self):
         self.load_transactions()
@@ -82,6 +83,35 @@ class Processor:
         print(self.transactions.head(10))
         print('shape of new transactions dataframe:', self.transactions.shape)
 
+    def get_num_fraud_transac(self):
+        # find the number of rows in transaction data with credit card numbers corresponding to that of fraud data
+        self.db.load_frauds()
+        frauds = self.db.frauds
+        # print("fraud-data shape:", frauds.shape)
+        transactions = self.transactions
+        fraudulent_transactions = transactions.astype(str).merge(frauds['credit_card_number'].astype(str),
+                                                                 how='inner', on=['credit_card_number'])
+        print('\nNumber of fraudulent transactions:', fraudulent_transactions.shape[0])
+        # print(fraudulent_transactions.head(10))
+        self.fraud_transac = fraudulent_transactions
+
+        # get details on fraudulent transactions
+        self.get_fraud_transac_state()
+        self.get_fraud_transac_vendor()
+
+    # Create a report of the number of fraudulent transactions per state
+    def get_fraud_transac_state(self):
+        fraudulent_transactions = self.fraud_transac
+        state_counts = fraudulent_transactions['state'].value_counts()
+        print('\nNumber of frauds per state:')
+        print(state_counts)
+
+    # Create a report of the number of fraudulent transactions per card vendor, eg: maestro => 45, amex => 78, etc...
+    def get_fraud_transac_vendor(self):
+        fraudulent_transactions = self.fraud_transac
+        print('\nNumber of frauds per vendor:')
+        ###########################
+
     def close_db_conn(self):
         self.db.close_db_connection()
 
@@ -89,4 +119,5 @@ class Processor:
 processor = Processor()
 processor.initialise_processor()
 processor.sanitise_transactions()
+processor.get_num_fraud_transac()
 processor.close_db_conn()
