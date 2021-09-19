@@ -1,0 +1,140 @@
+Loading transaction data...
+   credit_card_number             ipv4 state
+0      30213196611688  192.168.216.212    AZ
+1       4938684086769    172.29.189.27    CA
+2     213128820373753   172.22.174.184    AR
+3    3554681727155351    172.24.27.121    ID
+4       4339158798023     10.87.17.223    SC
+(500000, 3)
+
+Connecting to PostgreSQL database...
+PostgreSQL database version:
+('PostgreSQL 13.4 (Debian 13.4-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit',)
+PostgreSQL database name:
+('postgres',)
+
+Creating new table Fraud...
+New table Fraud created successfully
+Table row-count:
+(0,)
+
+Loading restructured fraud data into Fraud table
+Inserted values successfully
+
+Load vendor info with prefixes
+       vendor prefix
+0     maestro   5018
+1     maestro   5020
+2     maestro   5038
+3     maestro   56##
+4  mastercard     51
+5  mastercard     52
+6  mastercard     54
+7  mastercard     55
+8  mastercard   222%
+9        visa      4
+
+Sanitised transactions successfully:
+   credit_card_number            ipv4 state
+1       4938684086769   172.29.189.27    CA
+2     213128820373753  172.22.174.184    AR
+3    3554681727155351   172.24.27.121    ID
+4       4339158798023    10.87.17.223    SC
+5     341265497366150    10.134.18.19    AR
+shape of new transactions dataframe: (443529, 3)
+
+Getting frauds...
+Retrieved fraudulent data from database successfully, rows 0-4:
+    credit_card_number             ipv4 state
+0        4013901026491    172.23.51.228      
+1      345936465222676    192.168.102.7    WA
+2     4829769584081989  192.168.246.102    RI
+3       30340825930914   192.168.222.52    TX
+4  4302964471893676356     10.84.64.210    KS
+
+Number of fraudulent transactions: 911
+
+Number of frauds per state:
+LA    27
+AK    26
+VA    25
+WA    24
+MS    23
+MD    23
+KY    22
+RI    22
+KS    22
+PA    21
+SC    21
+VT    21
+OH    20
+DC    20
+NY    20
+DE    19
+IN    19
+NH    19
+MA    19
+IL    19
+MN    19
+HI    18
+WI    18
+ID    18
+NV    18
+AL    18
+WV    18
+NJ    17
+MT    17
+TN    17
+CA    17
+MI    17
+FL    16
+ME    16
+GA    16
+AR    16
+ND    16
+MO    15
+OR    15
+CT    15
+WY    14
+NC    14
+TX    14
+NE    14
+IA    14
+NM    14
+UT    12
+SD    12
+OK    12
+CO    12
+AZ    10
+Name: state, dtype: int64
+
+Fraudulent transactions with vendor:
+  credit_card_number            ipv4 state      vendor
+0      4013901026491   172.23.51.228    NV        visa
+1   5128258542512744   10.65.191.187    NJ  mastercard
+2   4673436419900968    10.68.149.54    ND        visa
+3   6011531195808785  192.168.216.58    MA    discover
+4   3518829214836604     10.55.8.196    AK       jcb16
+
+Number of fraudulent transactions per vendor:
+visa          352
+jcb16         185
+discover       99
+amex           84
+jcb15          74
+diners         54
+mastercard     45
+maestro        18
+Name: vendor, dtype: int64
+
+Masked transactions:
+  credit_card_number            ipv4 state  bytes
+1      4938*********   172.29.189.27    CA     28
+2    213128*********  172.22.174.184    AR     31
+3   3554681*********   172.24.27.121    ID     31
+4      4339*********    10.87.17.223    SC     27
+5    341265*********    10.134.18.19    AR     29
+Saved masked transactions to JSON: masked_transactions.json in Data folder
+Saved masked transactions as binary to pickle: transactions_binary.pkl in Data folder
+
+Database connection closed.

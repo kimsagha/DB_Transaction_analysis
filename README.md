@@ -50,3 +50,5 @@ Sanitise the data of both transaction-001.zip and transaction-002.zip by removin
 - Installed: pandas, postgres, psycopg2 (requirements file)
 - Postgres container on Docker, hosting PostgreSQL db (postgres, localhost, port 5432)
 - Database Management System: DataGrip
+- Output from terminal directed to output.txt
+- To run code, run data_processor.py
