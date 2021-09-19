@@ -81,7 +81,7 @@ class Processor:
         df_t = df_t[df_t['credit_card_number'].astype(str).str.startswith(prefixes)]
         self.transactions = df_t
         print('\nSanitised transactions successfully:')
-        print(self.transactions.head(10))
+        print(self.transactions.head(5))
         print('shape of new transactions dataframe:', self.transactions.shape)
 
     def get_num_fraud_transac(self):
@@ -115,7 +115,7 @@ class Processor:
         fraudulent_transactions['vendor'] = fraudulent_transactions\
             .apply(lambda row: self.add_vendor(row['credit_card_number']), axis=1)
         vendor_counts = fraudulent_transactions['vendor'].value_counts()
-        print(fraudulent_transactions.head(10))
+        print(fraudulent_transactions.head(5))
         print('\nNumber of fraudulent transactions per vendor:')
         print(vendor_counts)
 
@@ -125,7 +125,29 @@ class Processor:
         for index, row in iin_ranges.iterrows():
             if credit_card_number.startswith(row['prefix']):
                 return row[0]
-        return None
+        return vendor
+
+    def mask_transactions(self):
+        transactions = self.transactions
+
+        # mask last 9 characters of credit card number as '*'
+        transactions['credit_card_number'] = transactions['credit_card_number']\
+                                                            .astype(str).str[:-9] + '*********'
+
+        # add new bytes-column with bytes of first 3 columns added
+        transactions['bytes'] = transactions\
+            .apply(lambda row: len(str(row[0]+row[1]+row[2]).encode('utf-8')), axis=1)
+
+        print('\nMasked transactions:')
+        print(transactions.head(5))
+
+        # save masked fraudulent transactions as JSON in Data folder
+        transactions.to_json(r'Data/masked_transactions.json')
+        print('Saved masked transactions to JSON: masked_transactions.json in Data folder')
+
+        # save masked fraudulent transactions in binary file format in Data folder
+        transactions.to_pickle("Data/transactions_binary.pkl")  # pickle df to binary file
+        print('Saved masked transactions as binary to pickle: transactions_binary.pkl in Data folder')
 
     def close_db_conn(self):
         self.db.close_db_connection()
@@ -135,4 +157,5 @@ processor = Processor()
 processor.initialise_processor()
 processor.sanitise_transactions()
 processor.get_num_fraud_transac()
+processor.mask_transactions()
 processor.close_db_conn()

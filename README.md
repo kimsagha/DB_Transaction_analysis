@@ -47,7 +47,6 @@ Sanitise the data of both transaction-001.zip and transaction-002.zip by removin
 
 ### NOTES
 - Python interpreter: conda-environment with Python 3.9 setup
-- Installed: pandas, postgres, psycopg2
-- Postgres container on Docker, hosting PostgreSQL db
+- Installed: pandas, postgres, psycopg2 (requirements file)
+- Postgres container on Docker, hosting PostgreSQL db (postgres, localhost, port 5432)
 - Database Management System: DataGrip
-- Start Part 4
