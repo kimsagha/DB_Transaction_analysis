@@ -72,10 +72,15 @@ class Processor:
         self.iin_ranges = iin_ranges
 
     def sanitise_transactions(self):
-        # sanitise transactions
-        ############
+        # validate transactions by dropping the rows where the credit_card_number
+        # doesn't start with one of the prefixes in iin_ranges
+        df_t = self.transactions
+        prefixes = tuple(self.iin_ranges['prefix'].tolist())
+        df_t = df_t[df_t['credit_card_number'].astype(str).str.startswith(prefixes)]
+        self.transactions = df_t
         print('\nSanitised transactions successfully:')
         print(self.transactions.head(10))
+        print('shape of new transactions dataframe:', self.transactions.shape)
 
     def close_db_conn(self):
         self.db.close_db_connection()
